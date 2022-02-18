@@ -10,7 +10,12 @@ def turnIntoASCII (input):
     temp = []
     for huruf in input:
         temp.append(ord(huruf))
-    
+    return temp
+
+def turnIntoChar (input):
+    temp = []
+    for angkaAscii in input:
+        temp.append(chr(angkaAscii))
     return temp
 
 def ksa (kunci):
@@ -57,6 +62,6 @@ def encryptDecryptFunc (inputText, inputKey):
     c = prga(s,kata)
 
     kata = result(kata,c)
-
-    # Overwrite file
+    kata = turnIntoChar(kata)
+    
     return (kata)
