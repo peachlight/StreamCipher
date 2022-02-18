@@ -40,30 +40,30 @@ def prga (s,kata):
     return c
 
 def result (kata,c):
-    hasil = []
+    hasil = ''
     for i in range (len(kata)):
         temp = c[i] ^ kata[i]
-        hasil.append(temp)
+        hasil += chr(temp)
     return hasil
 
-inputKata = str(input("Masukan text: "))
-inputKey = str(input("Masukan text: "))
-inputdefault = 'haniftasya'
+# inputKata = str(input("Masukan text: "))
+# inputKey = str(input("Masukan text: "))
+# inputdefault = 'haniftasya'
 
-kata = turnIntoASCII(inputKata)
-kunci = turnIntoASCII(inputKey)
-default = turnIntoASCII(inputdefault)
-# kunci = modifKunci(kata,kunci)
+# kata = turnIntoASCII(inputKata)
+# kunci = turnIntoASCII(inputKey)
+# default = turnIntoASCII(inputdefault)
+# # kunci = modifKunci(kata,kunci)
 
-kunci = enkripsiVig(kunci,default)
-# print(kunci)
+# kunci = enkripsiVig(kunci,default)
+# # print(kunci)
 
-s = ksa(kunci)
-c = prga(s,kata)
+# s = ksa(kunci)
+# c = prga(s,kata)
 
-# print(kata)
-# print(c)
+# # print(kata)
+# # print(c)
 
-hasil = result(kata,c)
+# hasil = result(kata,c)
 
-print(hasil)
+# print(hasil)

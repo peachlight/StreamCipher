@@ -5,7 +5,10 @@ from tkinter import ttk
 from tkinter import filedialog
 
 # Import Function
-from extendedStreamFunc import *
+from streamcipher import swap,turnIntoASCII,ksa,prga,result
+from extendedStream import swapExt,turnIntoASCIIExt,ksaExt,prgaExt,resultExt
+from vigenere import enkripsiVig
+# from extendedStreamFunc import *
 
 # Tampilan Halaman Utama
 root = tk.Tk()
@@ -28,10 +31,6 @@ def UploadAction(event=None):
         filetypes=(("All Files", "*.*"),))
     pathh.insert(END, tf)
     return (tf)
-    #tf = open(tf)  # or tf = open(tf, 'r')
-    #data = tf.read()
-    #tf.close()
-    
 
 # Add Function Upload Text
 def UploadText(event=None):
@@ -53,19 +52,37 @@ pathh.pack(side=LEFT, expand=True, fill=X, padx=20)
 # Add Function Encrypt - Decrypt
 def encryptDecryptText():
     INPUT = inputtxt.get("1.0", "end-1c")
-    print(INPUT)
+    # print(INPUT)
     KUNCI = inputkunci.get("1.0", "end-1c")
-    print(KUNCI)
+    # print(KUNCI)
+    kata = turnIntoASCII(INPUT)
+    kunci = turnIntoASCII(KUNCI)
+    default = turnIntoASCII('haniftasya')
+    kunci = enkripsiVig(kunci,default)
+    s = ksa(kunci)
+    c = prga(s,kata)
+    hasil = result(kata,c)
+    
     Output.delete("1.0","end")
-    Output.insert(END, encryptDecryptFunc(INPUT, KUNCI))
+    Output.insert(END, hasil)
 
 def encryptDecryptNonText():
     dirPath = UploadAction()
-    INPUT = open(dirPath)
-    INPUT = INPUT.read()
+    print(dirPath)
+    INPUT = open(dirPath,'rb')
     KUNCI = inputkunci.get("1.0", "end-1c")
-    print(KUNCI)
-    kata = encryptDecryptFunc(INPUT, KUNCI)
+    # print(KUNCI)
+    kata = bytearray(INPUT.read())
+    kunci = turnIntoASCIIExt(KUNCI)
+    default = turnIntoASCIIExt('haniftasya')
+
+    INPUT.close()
+
+    kunci = enkripsiVig(kunci,default)
+    s = ksaExt(kunci)
+    c = prgaExt(s,kata)
+
+    kata = resultExt(kata,c)
     
     # Overwrite file
     f = open(dirPath,'wb')
@@ -75,7 +92,7 @@ def encryptDecryptNonText():
     # Message to label
     Output.delete("1.0","end")
     Output.insert(END, "File has been overwritten")
-    INPUT.close()
+
 
 # Add Button, Label
 l = Label(frame, text = "Masukkan karakter untuk didekripsi/enkripsi")
@@ -92,10 +109,10 @@ Output.pack()
 
 uploadTextButton = tk.Button(frame, text = "Upload File for Text", padx=10, pady=5, fg="black", bg="white", command = UploadText)
 uploadTextButton.pack(pady=10)
-encryptFileButton = tk.Button(frame, text = "Upload File and Encrypt/Decrypt", padx=10, pady=5, fg="black", bg="white", command = UploadAction)
-encryptFileButton.pack(pady=10)
 encryptDecryptButton = tk.Button(frame, text = "Encrypt/Decrypt", padx=10, pady=5, fg="black", bg="white", command = encryptDecryptText)
 encryptDecryptButton.pack(pady=10)
+encryptFileButton = tk.Button(frame, text = "Upload File and Encrypt/Decrypt", padx=10, pady=5, fg="black", bg="white", command = encryptDecryptNonText)
+encryptFileButton.pack(pady=10)
 
 
 root.mainloop()
