@@ -27,10 +27,11 @@ def UploadAction(event=None):
         title="Select a File",
         filetypes=(("All Files", "*.*"),))
     pathh.insert(END, tf)
-    tf = open(tf)  # or tf = open(tf, 'r')
-    data = tf.read()
-    tf.close()
-    return (data)
+    return (tf)
+    #tf = open(tf)  # or tf = open(tf, 'r')
+    #data = tf.read()
+    #tf.close()
+    
 
 # Add Function Upload Text
 def UploadText(event=None):
@@ -59,12 +60,22 @@ def encryptDecryptText():
     Output.insert(END, encryptDecryptFunc(INPUT, KUNCI))
 
 def encryptDecryptNonText():
-    INPUT = UploadAction()
+    dirPath = UploadAction()
+    INPUT = open(dirPath)
+    INPUT = INPUT.read()
     KUNCI = inputkunci.get("1.0", "end-1c")
     print(KUNCI)
-    encryptDecryptFunc(INPUT, KUNCI)
+    kata = encryptDecryptFunc(INPUT, KUNCI)
+    
+    # Overwrite file
+    f = open(dirPath,'wb')
+    f.write(kata)
+    f.close
+
+    # Message to label
     Output.delete("1.0","end")
     Output.insert(END, "File has been overwritten")
+    INPUT.close()
 
 # Add Button, Label
 l = Label(frame, text = "Masukkan karakter untuk didekripsi/enkripsi")

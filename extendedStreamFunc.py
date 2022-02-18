@@ -59,6 +59,4 @@ def encryptDecryptFunc (inputText, inputKey):
     kata = result(kata,c)
 
     # Overwrite file
-    f = open('C:/Users/mhani/UTS TST/StreamCipher/Coba1.png','wb')
-    f.write(kata)
-    f.close
+    return (kata)
