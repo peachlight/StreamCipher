@@ -46,8 +46,9 @@ def result (kata,c):
 
 inputdefault = 'haniftasya'
 
-def encryptDecryptFunc (kata, inputKey):
+def encryptDecryptFunc (inputText, inputKey):
     # to ASCII
+    kata = turnIntoASCII(inputText)
     kunci = turnIntoASCII(inputKey)
     default = turnIntoASCII(inputdefault)
     kunci = enkripsiVig(kunci,default)
