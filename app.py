@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter import filedialog
 
 # Import Function
-from streamcipher import *
+from extendedStreamFunc import *
 
 # Tampilan Halaman Utama
 root = tk.Tk()
@@ -23,6 +23,17 @@ labelTitle.pack()
 
 # Add Function Upload File
 def UploadAction(event=None):
+    tf = filedialog.askopenfilename(initialdir="C:/Users/MainFrame/Desktop/",
+        title="Select a File",
+        filetypes=(("All Files", "*.*"),))
+    pathh.insert(END, tf)
+    tf = open(tf)  # or tf = open(tf, 'r')
+    data = tf.read()
+    tf.close()
+    return (data)
+
+# Add Function Upload Text
+def UploadText(event=None):
     tf = filedialog.askopenfilename(
         initialdir="C:/Users/MainFrame/Desktop/", 
         title="Open Text file", 
@@ -38,23 +49,22 @@ def UploadAction(event=None):
 pathh = Entry(root)
 pathh.pack(side=LEFT, expand=True, fill=X, padx=20)
 
-# Add Function Encrypt
-def encryptText():
+# Add Function Encrypt - Decrypt
+def encryptDecryptText():
     INPUT = inputtxt.get("1.0", "end-1c")
     print(INPUT)
     KUNCI = inputkunci.get("1.0", "end-1c")
     print(KUNCI)
     Output.delete("1.0","end")
-    Output.insert(END, "Test Output Encrypt")
+    Output.insert(END, encryptDecryptFunc(INPUT, KUNCI))
 
-# Add Function Decrypt
-def decryptText():
-    INPUT = inputtxt.get("1.0", "end-1c")
-    print(INPUT)
+def encryptDecryptNonText():
+    INPUT = UploadAction()
     KUNCI = inputkunci.get("1.0", "end-1c")
     print(KUNCI)
+    encryptDecryptFunc(INPUT, KUNCI)
     Output.delete("1.0","end")
-    Output.insert(END, "Test Output Decrypt")
+    Output.insert(END, "File has been overwritten")
 
 # Add Button, Label
 l = Label(frame, text = "Masukkan karakter untuk didekripsi/enkripsi")
@@ -69,14 +79,12 @@ inputtxt.pack()
 inputkunci.pack()
 Output.pack()
 
-uploadTextButton = tk.Button(frame, text = "Upload File for Text", padx=10, pady=5, fg="black", bg="white", command = UploadAction)
+uploadTextButton = tk.Button(frame, text = "Upload File for Text", padx=10, pady=5, fg="black", bg="white", command = UploadText)
 uploadTextButton.pack(pady=10)
-uploadFileButton = tk.Button(frame, text = "Upload File", padx=10, pady=5, fg="black", bg="white")
-uploadFileButton.pack(pady=10)
-encryptButton = tk.Button(frame, text = "Encrypt", padx=10, pady=5, fg="black", bg="white", command = encryptText)
-encryptButton.pack(pady=10)
-decryptButton = tk.Button(frame, text = "Decrypt", padx=10, pady=5, fg="black", bg="white", command = decryptText)
-decryptButton.pack(pady=10)
+encryptFileButton = tk.Button(frame, text = "Upload File and Encrypt/Decrypt", padx=10, pady=5, fg="black", bg="white", command = UploadAction)
+encryptFileButton.pack(pady=10)
+encryptDecryptButton = tk.Button(frame, text = "Encrypt/Decrypt", padx=10, pady=5, fg="black", bg="white", command = encryptDecryptText)
+encryptDecryptButton.pack(pady=10)
 
 
 root.mainloop()
